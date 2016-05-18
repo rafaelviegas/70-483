@@ -13,24 +13,17 @@ namespace Chapter1
             {
                 Console.WriteLine("ThreadProc: {0}", i);
                 //Usando o método Sleep para simular a suspenção desta thread por 0 milissegundos.
-                Thread.Sleep(0);
+                Thread.Sleep(1000);
             }
         }
         public static void Main()
         {
-            //Instanciando uma nova thread com o método que criei no inicio do programa.
-            var t = new Thread(ThreadMethod);
+            //Instanciando uma nova thread em background com o método que criei no inicio do programa
+            var t = new Thread(ThreadMethod) {IsBackground = true};
+
             //startando a thread.
             t.Start();
-            //Criando um processo qualquer no meu método main
-            for (var i = 0; i < 4; i++)
-            {
-                Console.WriteLine("Main thread: Do some work.");
-                //Usando o método Sleep para simular a suspenção desta thread por 0 milissegundos.
-                Thread.Sleep(0);
-            }
-            //Usando o método Join para que o programa aguarde o termino desta thread para prosseguir.
-            t.Join();
+  
 
             Console.ReadKey();
 
