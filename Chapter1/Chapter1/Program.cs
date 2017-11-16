@@ -5,25 +5,33 @@ namespace Chapter1
 {
     public static class Program
     {
+  
+        [ThreadStatic]
+        //Com o atributo ThreadStatic cada thread terá um escopo da variável _field
+        public static int _field;
+
         public static void Main()
         {
-            bool stopped = false;
 
-            var t = new Thread(() =>
+            new Thread(() =>
             {
-                while (!stopped)
+                for (int i = 0; i < 10; i++)
                 {
-                    Console.WriteLine("Rodando...");
-                    Thread.Sleep(1000);
+                    _field++;
+                    Console.WriteLine("Thread A: {0}",_field);
                 }
-            });
+            }).Start();
 
-            t.Start();
-            Console.WriteLine("Aperte uma tecla para sair...");
+            new Thread(() =>
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    _field++;
+                    Console.WriteLine("Thread B: {0}", _field);
+                }
+            }).Start();
+
             Console.ReadKey();
-            stopped = true;
-
-            t.Join();
         }
     }
 }
