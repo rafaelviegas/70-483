@@ -6,37 +6,19 @@ namespace Chapter1
     public static class Program
     {
 
-        /*
-         * Usando o atributo ThreadStatic a variável é inicializada apenas uma vez
-         * Com ThreadLocal<T> a variável é inicializada dentro do escopo de cada Thread.
-        */
-
-        public static ThreadLocal<int> _field = new ThreadLocal<int>(() =>
-         {
-             return Thread.CurrentThread.ManagedThreadId;
-         });
-
         public static void Main()
         {
+            /*
+             * Reutilizando uma thread disponível do Threadpool para executar um código
+             * evitando o custo da criação de uma nova thread.
+             */
 
-            new Thread(() =>
-            {
-                for (int i = 0; i < _field.Value; i++)
-                {
-                  
-                    Console.WriteLine("Thread A: {0}",i);
-                }
-            }).Start();
+            ThreadPool.QueueUserWorkItem((s) =>
+            {   
+                Console.WriteLine("Trabalhando em uma thread do threadpool");
+            });
 
-            new Thread(() =>
-            {
-                for (int i = 0; i < _field.Value; i++)
-                {
-               
-                    Console.WriteLine("Thread B: {0}", i);
-                }
-            }).Start();
-
+ 
             Console.ReadKey();
         }
     }
