@@ -1,24 +1,23 @@
 ﻿using System;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace Chapter1
 {
     public static class Program
     {
-
         public static void Main()
         {
-            /*
-             * Reutilizando uma thread disponível do Threadpool para executar um código
-             * evitando o custo da criação de uma nova thread.
-             */
-
-            ThreadPool.QueueUserWorkItem((s) =>
-            {   
-                Console.WriteLine("Trabalhando em uma thread do threadpool");
+            //Criando nova Task e iniciando-a imediatamente
+            Task t = Task.Run(() =>
+            {
+                for (int i = 0; i < 1000; i++)
+                {
+                    Console.Write('*');
+                }
             });
 
- 
+            //Igual ao Join da Thread. Espera a Task executar por completa para seguir o fluxo
+            t.Wait();
             Console.ReadKey();
         }
     }
