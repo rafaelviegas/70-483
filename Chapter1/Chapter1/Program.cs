@@ -7,17 +7,10 @@ namespace Chapter1
     {
         public static void Main()
         {
-            //Criando nova Task e iniciando-a imediatamente
-            Task t = Task.Run(() =>
-            {
-                for (int i = 0; i < 1000; i++)
-                {
-                    Console.Write('*');
-                }
-            });
+     
+            Task<int> t = Task.Run(() => 42);
 
-            //Igual ao Join da Thread. Espera a Task executar por completa para seguir o fluxo
-            t.Wait();
+            Console.WriteLine(t.Result);
             Console.ReadKey();
         }
     }
