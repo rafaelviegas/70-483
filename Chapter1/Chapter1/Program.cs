@@ -8,7 +8,11 @@ namespace Chapter1
         public static void Main()
         {
      
-            Task<int> t = Task.Run(() => 42);
+            var t = Task.Run(() => 42)
+                .ContinueWith((task) =>
+                {
+                    return task.Result * 2;
+                });
 
             Console.WriteLine(t.Result);
             Console.ReadKey();
